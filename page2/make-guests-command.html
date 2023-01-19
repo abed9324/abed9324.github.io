@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>!guests command generator</title>
+<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+
+<style title="Default Style" media="all">
+:root {
+	--primary_button: #3C6E71;
+	--primary_button_text: white;
+	--secondary_button: white;
+	--secondary_button_text: white;
+	--secondary_button_outline: #212529;
+	--background_page: #ced4da;
+}
+
+#guests-list-form {
+	width:100%;
+}
+
+.text-center {
+	text-align: center;
+}
+
+/* the text box at the top that has the generated !guest command */
+input[type="text"] {
+	width: 100%;
+	font-size: 200%;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	border-radius:15px;
+	padding:25px;
+}
+
+/* the list of checkboxes and labels for the guests */
+div.guest-list-inputs {
+	column-count: 2;
+	vertical-align: text-top;
+	padding-top: 0px;
+	padding-bottom: 0px;
+}
+
+/* the combined checkbox and label */
+div.checkbox-label-wrapper {
+	white-space: nowrap;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+}
+
+input[type="checkbox"] {
+	height: 100%;
+	vertical-align: baseline;
+	display: inline-block;
+	height: 60px;
+	width: 60px;
+	box-shadow: 3px 3px #888888;
+        margin-right:15px;
+        margin-top:25px;
+}
+
+label.checkbox-label {
+	white-space: normal;
+	display: inline-block;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	width: 100%;
+	font-size: 300%;
+}
+
+.button {
+	background-color: var(--primary_button);
+	color: var(--primary_button_text);
+	text-align: center;
+	width: 90%;
+	padding: 10px;
+	margin: 4px 2px;
+	font-size: 300%;
+	border: none;
+	display: inline-block;
+	height: 90px;
+	border-radius:15px;
+        box-shadow: 3px 3px #888888;
+}
+
+input.reset {
+        background-color: var(--secondary_button);
+        color:var(--secondary_button_text);
+        border-style: solid;
+        border-width: 1px;
+        border-color:var(--secondary_button_outline);
+        box-shadow: 3px 3px #888888;
+        margin-top: -25px;
+        margin-bottom:25px;
+	background-color: red;
+}
+
+body {
+	background-color: var(--background_page);
+	font-size: 120%;
+}
+
+.form-alignment{
+	border-style: solid;
+	border-radius: 15px;
+	padding: 10px;
+	margin: 20px;
+	padding-top: 5px;
+}
+</style>
+
+<body onload="bodyLoadFunction()">
+
+<input type="text" value="!editcom !guests " id="commandInput">
+
+<div class="text-center">
+<button class="button text-center" onclick="myCopyFunction()">Copy to Clipboard</button>
+</div>
+
+<div class="form-alignment">
+<form name="GuestsList" onreset="return resetForm()" id="guests-list-form"></form>
+</div>
+
+<script>
+	// guests is an array of {name: "display name", login: "twitch_login"}
+	const guests = [];
+
+	const searchParams = new URLSearchParams(document.location.search);
+
+	// append guest list from key-value URL parameters using login=name, e.g.:
+	// .../make-guests-command.html?login1=name1&login2=name2&login3=name3
+
+	for (const [login, name] of searchParams.entries()) {
+		guests.push({login: login, name: name});
+	}
+
+	// sort guests list by name
+	guests.sort((a, b) => a.name > b.name);
+
+function generateForm() {
+	let f = document.getElementById("guests-list-form");
+	f.appendChild(document.createElement('br'));
+	f.appendChild(document.createElement('br'));
+
+	let div_inputs = document.createElement("div");
+	div_inputs.setAttribute("class", "guest-list-inputs");
+	f.appendChild(div_inputs);
+
+	// create check boxes and labels
+	for (let index = 0; index < guests.length; index++) {
+
+		let div_checkbox_label_wrapper = document.createElement("div");
+		div_checkbox_label_wrapper.setAttribute("class", "checkbox-label-wrapper");
+
+		let input_checkbox = document.createElement("input");
+		let input_elem_id = "inputID_" + guests[index].login;
+		let input_elem_name = "inputName_" + guests[index].login;
+
+		input_checkbox.setAttribute("type", "checkbox");
+		input_checkbox.setAttribute("id", input_elem_id);
+		input_checkbox.setAttribute("name", input_elem_name);
+		input_checkbox.setAttribute("value", guests[index].name + " twitch.tv/" + guests[index].login);
+		input_checkbox.setAttribute("onchange", "setInputTextValue()");
+		div_checkbox_label_wrapper.appendChild(input_checkbox);
+
+		let label = document.createElement("label");
+		label.setAttribute("class", "checkbox-label");
+		label.setAttribute("for", input_elem_id);
+		label.innerHTML = guests[index].name;
+		div_checkbox_label_wrapper.appendChild(label);
+
+		div_inputs.appendChild(div_checkbox_label_wrapper);
+	}
+
+	f.appendChild(document.createElement('br'));
+	f.appendChild(document.createElement('br'));
+	f.appendChild(document.createElement('br'));
+
+	// create form reset button
+	let div = document.createElement("div");
+	div.setAttribute("class", "text-center");
+
+	let reset = document.createElement("input");
+	reset.setAttribute("type", "reset");
+	reset.setAttribute("class", "reset button");
+	div.appendChild(reset);
+
+	f.appendChild(div);
+}
+
+function bodyLoadFunction() {
+	generateForm();
+	setInputTextValue();
+}
+
+function myCopyFunction() {
+	let commandInput = document.getElementById("commandInput");
+
+	if (typeof(navigator.clipboard) != "undefined") {
+		// use Clipboard API if we have it
+		navigator.clipboard.writeText(commandInput.value)
+			.then(() => {
+				alert("successfully copied: " + commandInput.value);
+			})
+			.catch(() => {
+				alert("something went wrong");
+			});
+		return;
+	}
+
+	if (navigator.userAgent.match(/ipad|iphone/i)) {
+		oldiosCopyToClipboard(commandInput);
+		return;
+	}
+
+	commandInput.select();
+	commandInput.setSelectionRange(0, 999999); // mobile devices
+	navigator.clipboard.writeText(commandInput.value);
+}
+
+
+function oldiosCopyToClipboard(commandInput) {
+	// copy function for old iOS/safari
+	let oldContentEditable = commandInput.contentEditable,
+	    oldReadOnly = commandInput.readOnly,
+	    range = document.createRange();
+
+	commandInput.contentEditable = true;
+	commandInput.readOnly = false;
+	range.selectNodeContents(commandInput);
+
+	let s = window.getSelection();
+	s.removeAllRanges();
+	s.addRange(range);
+
+	commandInput.setSelectionRange(0, 999999); // mobile devices
+
+	commandInput.contentEditable = oldContentEditable;
+	commandInput.readOnly = oldReadOnly;
+
+	document.execCommand('copy');
+}
+
+function setInputTextValue() {
+	let x = "!editcom !guests ";
+	let selected_count = 0;
+	let elements = document.getElementById("guests-list-form").elements;
+	for (let i = 0, element; element = elements[i]; i++) {
+		if (element.type === "checkbox" && element.checked) {
+			if (selected_count > 0) {
+				x += " | ";
+			}
+
+			x += element.value;
+			selected_count++;
+		}
+	}
+
+//	console.log("setting commandInput to " + x);
+	document.getElementById('commandInput').value = x;
+}
+
+function resetForm() {
+	let elements = document.getElementById("guests-list-form").elements;
+	for (let i = 0, element; element = elements[i]; i++) {
+		if (element.type === "checkbox" && element.checked) {
+			element.checked = false;
+		}
+	}
+	setInputTextValue();
+	return false;
+}
+
+</script>
+</body>
+</html>
