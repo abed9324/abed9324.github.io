@@ -138,9 +138,6 @@ body {
 		guests.push({login: login, name: name});
 	}
 
-	// sort guests list by name
-	guests.sort((a, b) => a.name > b.name);
-
 function generateForm() {
 	let f = document.getElementById("guests-list-form");
 	f.appendChild(document.createElement('br'));
