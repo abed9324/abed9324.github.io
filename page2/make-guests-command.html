@@ -6,12 +6,13 @@
 
 <style title="Default Style" media="all">
 :root {
-	--primary_button: #3C6E71;
+	--primary_button: #FF92C2;
 	--primary_button_text: white;
 	--secondary_button: white;
 	--secondary_button_text: white;
-	--secondary_button_outline: #212529;
-	--background_page: #ced4da;
+	--secondary_button_outline: #8093F1;
+	--checkbox_outline: #8093F1;
+	--background_page: #FFE4F3;
 }
 
 #guests-list-form {
@@ -29,8 +30,9 @@ input[type="text"] {
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
-	border-radius:15px;
-	padding:25px;
+	border-radius: 15px;
+	padding: 25px;
+	border-color: var(--checkbox_outline);
 }
 
 /* the list of checkboxes and labels for the guests */
@@ -51,14 +53,33 @@ div.checkbox-label-wrapper {
 }
 
 input[type="checkbox"] {
-	height: 100%;
+	-moz-appearance: none;
+	-webkit-appearance: none;
+	-o-appearance: none;
+	box-shadow: 3px 3px var(--checkbox_outline);
+	border-color: var(--checkbox_outline);
+	border-radius: 10%;
+	background-color: white;
+
 	vertical-align: baseline;
+//	vertical-align: sub;
 	display: inline-block;
 	height: 60px;
 	width: 60px;
 	box-shadow: 3px 3px #888888;
-        margin-right:15px;
-        margin-top:25px;
+	margin-right:15px;
+	margin-top:25px;
+}
+
+input[type="checkbox"]:checked {
+	background-image: url("data:image/svg+xml,%3Csvg width='14' height='11' viewBox='0 0 14 11' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 6L5 11L14 2L12 0L5 7L2 4L0 6Z' fill='%238093F1'/%3E%3C/svg%3E%0A");
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 50px;
+}
+
+label {
+	font-family:sans-serif;
 }
 
 label.checkbox-label {
@@ -83,19 +104,19 @@ label.checkbox-label {
 	border: none;
 	display: inline-block;
 	height: 90px;
-	border-radius:15px;
-        box-shadow: 3px 3px #888888;
+	border-radius: 15px;
+	box-shadow: 3px 3px #888888;
 }
 
 input.reset {
-        background-color: var(--secondary_button);
-        color:var(--secondary_button_text);
-        border-style: solid;
-        border-width: 1px;
-        border-color:var(--secondary_button_outline);
-        box-shadow: 3px 3px #888888;
-        margin-top: -25px;
-        margin-bottom:25px;
+	background-color: var(--secondary_button);
+	color: var(--secondary_button_text);
+	border-style: solid;
+	border-width: 1px;
+	border-color: var(--secondary_button_outline);
+	box-shadow: 3px 3px #8093F1;
+	margin-top: -25px;
+	margin-bottom: 25px;
 	background-color: red;
 }
 
