@@ -29,7 +29,7 @@ var onAnimEndEnglishURL = function(e) {
 
 
 $lineDisplay.flapper({
-  width: 32,
+  width: 12,
   chars_preset: 'alphanum',
   align: 'left',
   timing: 500,
@@ -47,7 +47,7 @@ $nameDisplay_English.flapper({
 });
 
 $nameDisplay_Hangul.flapper({
-  width: 32,
+  width: 16,
   chars_preset: 'alphanum',
   align: 'left',
   timing: 1000,
@@ -57,7 +57,7 @@ $nameDisplay_Hangul.flapper({
 });
 
 $nameDisplay_Location1.flapper({
-  width: 32,
+  width: 16,
   chars_preset: 'alphanum',
   align: 'left',
   timing: 1000,
@@ -65,7 +65,7 @@ $nameDisplay_Location1.flapper({
 });
 
 $nameDisplay_LocationN.flapper({
-  width: 32,
+  width: 16,
   chars_preset: 'alphanum',
   align: 'left',
   timing: 1000,
