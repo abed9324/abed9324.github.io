@@ -4,8 +4,14 @@ var $nameDisplay_Hangul = $('#nameDisplay_Hangul');
 var $nameDisplay_Location1 = $('#nameDisplay_Location1');
 var $nameDisplay_LocationN = $('#nameDisplay_LocationN');
 
+var $stationTextEnglish = $('#stationTextEnglish');
+var $stationTextHangul = $('#stationTextHangul');
+
 var $button_english_wikipedia = $('#button_english_wikipedia');
 var $button_hangul_wikipedia = $('#button_hangul_wikipedia');
+
+var station_name_hangul = "";
+var station_name_english = "";
 
 var station_name_hangul_url = "";
 var station_name_english_url = "";
@@ -35,15 +41,18 @@ function enable_wikipedia_button(b) {
 
 var onAnimStartHangulURL = function(e) {
   disable_wikipedia_button($button_hangul_wikipedia);
+  document.getElementById('stationTextHangul').value = '';
 }
 
 var onAnimStartEnglishURL = function(e) {
   disable_wikipedia_button($button_english_wikipedia);
+  document.getElementById('stationTextEnglish').value = '';
 }
 
 var onAnimEndHangulURL = function(e) {
   if (station_name_hangul_url) {
     enable_wikipedia_button($button_hangul_wikipedia);
+    document.getElementById('stationTextHangul').value = station_name_hangul;
     return;
   }
   disable_wikipedia_button($button_hangul_wikipedia);
@@ -52,14 +61,22 @@ var onAnimEndHangulURL = function(e) {
 var onAnimEndEnglishURL = function(e) {
   if (station_name_english_url) {
     enable_wikipedia_button($button_english_wikipedia);
+    document.getElementById('stationTextEnglish').value = station_name_english;
     return;
   }
   disable_wikipedia_button($button_english_wikipedia);
 }
 
 
+// flapper digit width = 50
+// flapper left margin = 4
+// flapper spacing? = 4
+
+var flapper_digit_width = Math.ceil(window.innerWidth / (50 + 4 + 4));
+console.log('flapper_digit_width = ' + flapper_digit_width);
+
 $lineDisplay.flapper({
-  width: 12,
+  width: flapper_digit_width,
   chars_preset: 'alphanum',
   align: 'left',
   timing: 500,
@@ -67,7 +84,7 @@ $lineDisplay.flapper({
 });
 
 $nameDisplay_English.flapper({
-  width: 28,
+  width: flapper_digit_width,
   chars_preset: 'alphanum',
   align: 'left',
   timing: 1000,
@@ -77,7 +94,7 @@ $nameDisplay_English.flapper({
 });
 
 $nameDisplay_Hangul.flapper({
-  width: 16,
+  width: flapper_digit_width,
   chars_preset: 'alphanum',
   align: 'left',
   timing: 1000,
@@ -87,7 +104,7 @@ $nameDisplay_Hangul.flapper({
 });
 
 $nameDisplay_Location1.flapper({
-  width: 17,
+  width: flapper_digit_width,
   chars_preset: 'alphanum',
   align: 'left',
   timing: 1000,
@@ -95,7 +112,7 @@ $nameDisplay_Location1.flapper({
 });
 
 $nameDisplay_LocationN.flapper({
-  width: 16,
+  width: flapper_digit_width,
   chars_preset: 'alphanum',
   align: 'left',
   timing: 1000,
@@ -109,18 +126,27 @@ function random(range) {
   return Math.floor(Math.random() * range);
 }
 
+function center(x) {
+   let len = x.length;
+   let pad = (flapper_digit_width - len) / 2;
+   if (pad < 0) { pad = 0; }
+   let padding = " ".repeat(pad);
+   return padding + x;
+}
+
 async function bodyLoadFunction() {
   const response = await fetch('js/seoul-subway-stations.json');
   subway_data = await response.json();
   // console.log(subway_data);
+
   writeDisplay(
-   { line: "RNG STATION",
+   {line:                 center("RNG STATION"),
+    station_name_english: center("PUSH ROLL"),
+    station_name_hangul:  center("!"),
+    location_level_1:     center("!"),
+    location_level_n:     center("V"),
     station_name_english_url: "",
-    station_name_hangul_url: "",
-    station_name_english: "PUSH ROLL BUTTON",
-    station_name_hangul: "",
-    location_level_1: "",
-    location_level_n: ""}
+    station_name_hangul_url: "" }
   );
 }
 
@@ -173,8 +199,13 @@ function newpick() {
 function Roll() {
   const result = newpick();
 
+  station_name_english = result.station_name_english;
+  station_name_hangul = result.station_name_hangul;
+
   station_name_english_url = result.station_name_english_url;
   station_name_hangul_url = result.station_name_hangul_url;
+  console.log("Roll: result.station_name_english_url " + result.station_name_english_url);
+  console.log("Roll: result.station_name_hangul_url " + result.station_name_hangul_url);
 
   writeDisplay(result);
 }
@@ -183,8 +214,6 @@ function writeDisplay(result) {
   console.log("updateDisplay: result.line " + result.line);
   console.log("updateDisplay: result.station_name_english " + result.station_name_english);
   console.log("updateDisplay: result.station_name_hangul " + result.station_name_hangul);
-  console.log("updateDisplay: result.station_name_english_url " + result.station_name_english_url);
-  console.log("updateDisplay: result.station_name_hangul_url " + result.station_name_hangul_url);
   console.log("updateDisplay: result.location_level_1 " + result.location_level_1);
   console.log("updateDisplay: result.location_level_n " + result.location_level_n);
 

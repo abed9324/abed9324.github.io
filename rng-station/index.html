@@ -37,6 +37,17 @@
         color: var(--primary_button_text);
     }
 
+    input[type="text"] {
+      width: 100%;
+      font-size: 100%;
+      box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      -webkit-box-sizing: border-box;
+        border-radius:15px;
+        padding:25px;
+        border-color: var(--checkbox_outline);
+    }
+
 </style>
 <!-- link href="css/index.css" type="text/css" rel="stylesheet" / -->
 </head>
@@ -81,6 +92,11 @@
 
             </form>
         </div>
+
+    <hr>
+    <input type="text" value="" id="stationTextEnglish" style="width:100%">
+    <input type="text" value="" id="stationTextHangul"  style="width:100%">
+
 
     <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
     <script src="js/jquery.transform-0.9.3.min.js"></script>
