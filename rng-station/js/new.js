@@ -41,10 +41,12 @@ function enable_wikipedia_button(b) {
 
 var onAnimStartHangulURL = function(e) {
   disable_wikipedia_button($button_hangul_wikipedia);
+  $stationTextHangul.text('');
 }
 
 var onAnimStartEnglishURL = function(e) {
   disable_wikipedia_button($button_english_wikipedia);
+  $stationTextEnglish.text('');
 }
 
 var onAnimEndHangulURL = function(e) {
