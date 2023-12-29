@@ -50,15 +50,28 @@
         color: var(--primary_button_text);
     }
 
-    input[type="text"] {
-      width: 100%;
-      font-size: 100%;
-      box-sizing: border-box;
-      -moz-box-sizing: border-box;
-      -webkit-box-sizing: border-box;
-        border-radius:15px;
-        padding:25px;
-        border-color: var(--checkbox_outline);
+    hr {
+      border: none;
+      border-top: 1px solid #333;
+      color: #333;
+      overflow:visible;
+      text-align: left;
+      height: 5px;
+    }
+
+    hr::after {
+      background: #fff;
+      padding: 0 4px;
+      position: relative;
+      top: -13px;
+    }
+
+    hr.station::after {
+      content: 'Station';
+    }
+
+    hr.location::after {
+      content: 'Location';
     }
 
 </style>
@@ -67,19 +80,17 @@
     <div class="flapper">
         <input class="M" id="lineDisplay" />
     </div>
-    <hr>
+    <hr class="station" />
         <div class="flapper">
             <input class="M yellow" id="nameDisplay_English" />
         </div>
-    <hr>
         <div class="flapper">
             <input class="M yellow" id="nameDisplay_Hangul" />
         </div>
-    <hr>
+    <hr class="location" />
         <div class="flapper">
             <input class="M" id="nameDisplay_Location1" />
         </div>
-    <hr>
         <div class="flapper">
             <input class="M" id="nameDisplay_LocationN" />
         </div>
@@ -106,9 +117,8 @@
         </div>
 
     <hr>
-    <input type="text" value="" id="stationTextEnglish" style="width:100%">
-    <input type="text" value="" id="stationTextHangul"  style="width:100%">
-
+    <p><span id="stationTextEnglish"></span></p>
+    <p><span id="stationTextHangul"></span></p>
 
     <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
     <script src="js/jquery.transform-0.9.3.min.js"></script>

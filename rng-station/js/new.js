@@ -41,30 +41,30 @@ function enable_wikipedia_button(b) {
 
 var onAnimStartHangulURL = function(e) {
   disable_wikipedia_button($button_hangul_wikipedia);
-  document.getElementById('stationTextHangul').value = '';
 }
 
 var onAnimStartEnglishURL = function(e) {
   disable_wikipedia_button($button_english_wikipedia);
-  document.getElementById('stationTextEnglish').value = '';
 }
 
 var onAnimEndHangulURL = function(e) {
   if (station_name_hangul_url) {
     enable_wikipedia_button($button_hangul_wikipedia);
-    document.getElementById('stationTextHangul').value = station_name_hangul;
+    $stationTextHangul.text(station_name_hangul);
     return;
   }
   disable_wikipedia_button($button_hangul_wikipedia);
+  $stationTextHangul.text('');
 }
 
 var onAnimEndEnglishURL = function(e) {
   if (station_name_english_url) {
     enable_wikipedia_button($button_english_wikipedia);
-    document.getElementById('stationTextEnglish').value = station_name_english;
+    $stationTextEnglish.text(station_name_english);
     return;
   }
   disable_wikipedia_button($button_english_wikipedia);
+  $stationTextEnglish.text('');
 }
 
 
