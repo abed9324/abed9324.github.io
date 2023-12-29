@@ -12,6 +12,7 @@
     div.flapper {
         width: 100%;
         display: inline-block;
+        white-space: nowrap;
     }
 
     button {
@@ -49,7 +50,6 @@
     }
 
 </style>
-<!-- link href="css/index.css" type="text/css" rel="stylesheet" / -->
 </head>
 <body onload="bodyLoadFunction()">
     <div class="flapper">
@@ -72,9 +72,9 @@
             <input class="M" id="nameDisplay_LocationN" />
         </div>
     <hr>
+        <button type="button" class="roll" onclick="Roll()">Roll</button>
         <button type="button" class="wikipedia" id="button_english_wikipedia" onclick="visitEnglishWikipedia()" disabled="true">Wikipedia</button>
         <button type="button" class="wikipedia" id="button_hangul_wikipedia" onclick="visitHangulWikipedia()" disabled="true">위키백과</button>
-        <button type="button" class="roll" onclick="Roll()">Roll</button>
     <hr>
         <div class="location-div">
             <form name="location-list" id="location-list-form">
