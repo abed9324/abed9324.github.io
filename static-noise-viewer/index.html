@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>static noise viewer</title>
+  <link href="https://vjs.zencdn.net/8.9.0/video-js.css" rel="stylesheet">
+</head>
+<body>
+  <video id="videojs-http-source-selector-player" width="1920" height="1080" class="video-js vjs-default-skin" controls data-setup='{"controls": true, "autoplay": "muted", "preload": "auto"}'></video>
+  <p>
+  Stream URL:
+  <input type="text" id="streamURL" value="" size="65">
+  <button onClick="loadStream()">Load</button>
+  
+  <br/>
+  
+  
+  <script src='https://vjs.zencdn.net/8.9.0/video.js'></script>
+  <script src="videojs-quality-selector-hls.js"></script>
+  <script>
+    (function(window, videojs) {
+      var options = { html5: { vhs: { llhls: true } } };
+      var player = window.player = videojs('videojs-http-source-selector-player', options);
+      player.qualitySelectorHls({displayCurrentQuality: true});
+      //Load stream from query param /?stream=MYHLS_STREAM_URL_GOES_HERE
+      var queryParamStream = getQueryString('stream');
+      if(queryParamStream !== null)
+      {
+        document.getElementById("streamURL").value = queryParamStream;
+        player.src({ type: "application/x-mpegURL", src: document.getElementById("streamURL").value });
+      }
+    }(window, window.videojs));
+
+    function loadStream(){
+      console.log("Change stream to : "+document.getElementById("streamURL").value );
+      player.src({ type: "application/x-mpegURL", src: document.getElementById("streamURL").value });
+    }
+
+    /**
+      * Get the value of a querystring
+      * @param  {String} field The field to get the value of
+      * @param  {String} url   The URL to get the value from (optional)
+      * @return {String}       The field value
+      */
+    function getQueryString ( field, url )
+    {
+      var href = url ? url : window.location.href;
+      var reg = new RegExp( '[?&]' + field + '=([^]*)', 'i' );
+      var string = reg.exec(href);
+      return string ? string[1] : null;
+    }
+
+  </script>
+
+</body>
+</html>
